@@ -1,0 +1,259 @@
+{
+  "meta": {
+    "title": "JVK Portfolio",
+    "description": "Projects, studies, experiments and demonstrations."
+  },
+  "skip": "Skip to content",
+  "menu": "Open menu",
+  "mainNav": "Main navigation",
+  "nav": {
+    "home": "Home",
+    "work": "Projects",
+    "areas": "Areas & tools",
+    "certifications": "Certifications",
+    "info": "Info",
+    "contact": "Contact"
+  },
+  "footer": {
+    "legal": "Portfolio Notes",
+    "local": "Projects, studies and demonstrations"
+  },
+  "home": {
+    "eyebrow": "Evolving",
+    "headline": "Hey. My name is João — JVK around here.",
+    "paragraphs": [
+      "This website is where I keep things I've built, ideas I tried to turn into something real, projects that worked, others that are still evolving, and tools I've learned along the way.",
+      "A lot of what you see here started because I didn't know how to build something and decided to learn until I could make the idea work.",
+      "You'll find systems, interfaces, data, maps, automation, experiments, and a few ideas that will probably change a lot over time.",
+      "Some things are finished. Others aren't. This website is still evolving too."
+    ],
+    "asideTitle": "Evolving",
+    "aside": "Projects, studies, demonstrations and materials in preparation.",
+    "selected": "Selected projects",
+    "allWork": "View all",
+    "areas": "Areas & tools",
+    "areasLead": "Areas and tools I work with and continue learning",
+    "certifications": "Certifications",
+    "certLead": "Certifications, courses and education can be added after review.",
+    "development": "This portfolio is under continuous development. Some projects, demonstrations, translations and materials are still being prepared for publication."
+  },
+  "work": {
+    "eyebrow": "Projects",
+    "title": "Projects, studies and demonstrations",
+    "lead": "Not every project has a public demonstration yet. This is also where studies, experiments and work still evolving can appear.",
+    "filters": "Project filters",
+    "all": "All",
+    "available": "Available",
+    "development": "In development",
+    "view": "View project",
+    "status": "Status",
+    "typeYear": "Type",
+    "overview": "Overview",
+    "capabilities": "Capabilities",
+    "technologies": "Technologies",
+    "demonstration": "Demonstration",
+    "demo": "Open demonstration",
+    "demoPending": "Demonstration in preparation"
+  },
+  "projects": [
+    {
+      "id": "01",
+      "title": "Management System",
+      "status": "AVAILABLE",
+      "summary": "A management interface with local modules and flows to explore.",
+      "typeYear": "Available project",
+      "overview": "An independent public reconstruction with fictional organization, records, processes, calendar, responsibilities and pending-items flows.",
+      "capabilities": [
+        "Local consultation and editing modules",
+        "Records, processes and calendar flows",
+        "Optional local persistence for the demonstration"
+      ],
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Optional localStorage"
+      ],
+      "demo": "demos/management-system/index.html"
+    },
+    {
+      "id": "02",
+      "title": "Public Information Portal",
+      "status": "AVAILABLE",
+      "summary": "A portal to consult, discover and navigate fictional information in different ways.",
+      "typeYear": "Available project",
+      "overview": "An independent public reconstruction of a modular hub for search, contextual navigation and exploration of fictional content.",
+      "capabilities": [
+        "Search and navigation by context and category",
+        "Structured content and local relations",
+        "Synthetic spatial visualization in local SVG"
+      ],
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Local SVG"
+      ],
+      "demo": "demos/public-portal/index.html"
+    },
+    {
+      "id": "03",
+      "title": "Configurable Document Engine",
+      "status": "IN DEVELOPMENT",
+      "summary": "A local configurable document engine with declarative definitions.",
+      "typeYear": "In development",
+      "overview": "A public reconstruction in development of a shared engine that interprets stages, rules, review and rendering through definitions.",
+      "capabilities": [
+        "Declarative definitions",
+        "Configurable conditions and validation",
+        "Document review and rendering"
+      ],
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "demo": null
+    },
+    {
+      "id": "04",
+      "title": "Cleaning and Routine Operations",
+      "status": "IN DEVELOPMENT",
+      "summary": "An in-development project with a neutral technical description in preparation.",
+      "typeYear": "In development",
+      "overview": "",
+      "capabilities": [],
+      "technologies": [],
+      "demo": null
+    },
+    {
+      "id": "05",
+      "title": "Pulse",
+      "status": "IN DEVELOPMENT",
+      "summary": "An in-development project with a neutral technical description in preparation.",
+      "typeYear": "In development",
+      "overview": "",
+      "capabilities": [],
+      "technologies": [],
+      "demo": null
+    }
+  ],
+  "areas": {
+    "eyebrow": "Areas & tools",
+    "title": "Areas and tools I work with and continue learning",
+    "lead": "These groups show directions for building, working and learning. They are not skill levels or personal rankings.",
+    "groups": [
+      {
+        "title": "I build",
+        "items": [
+          "Web applications",
+          "Dashboards",
+          "Interactive portals",
+          "Local tools",
+          "Configurable document systems",
+          "Data interfaces",
+          "Workflow systems"
+        ]
+      },
+      {
+        "title": "I work with",
+        "items": [
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "Python",
+          "SQL",
+          "Git",
+          "GitHub",
+          "QGIS",
+          "Apps Script"
+        ]
+      },
+      {
+        "title": "I explore",
+        "items": [
+          "System architecture",
+          "GIS",
+          "Remote sensing",
+          "Data modeling",
+          "Information security",
+          "Governance",
+          "Automation",
+          "Local-first applications"
+        ]
+      },
+      {
+        "title": "I care about",
+        "items": [
+          "Simplicity",
+          "Traceability",
+          "Usability",
+          "Privacy",
+          "Maintainability",
+          "Clear information",
+          "Responsibility",
+          "Learning"
+        ]
+      }
+    ]
+  },
+  "certifications": {
+    "eyebrow": "Certifications",
+    "title": "Certifications, courses and education",
+    "lead": "This page is ready to receive information reviewed for public display.",
+    "sections": [
+      "Certifications",
+      "Courses & training",
+      "Education"
+    ],
+    "empty": "Content in preparation."
+  },
+  "info": {
+    "eyebrow": "Info",
+    "title": "How I usually work",
+    "lead": "I don't try to fit projects into a single category. They can involve technology, systems, data, maps, automation, interfaces, documentation, security, governance and experiments.",
+    "flowTitle": "A process that appears often here",
+    "flow": [
+      "Observe",
+      "Understand",
+      "Test",
+      "Build",
+      "Present",
+      "Listen",
+      "Decide"
+    ],
+    "feedback": "When an idea does not make sense or receives negative feedback, ending or reassessing it is also part of the process. When it shows value, the path is to continue and improve.",
+    "development": "This portfolio is under continuous development. Some projects, demonstrations, translations and materials are still being prepared for publication."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Contact channels",
+    "lead": "You can find me here.",
+    "items": [
+      {
+        "label": "LinkedIn",
+        "value": "joão-vitor-kegler-99104a205",
+        "href": "https://www.linkedin.com/in/jo%C3%A3o-vitor-kegler-99104a205/"
+      },
+      {
+        "label": "Email",
+        "value": "jvkworkstation@gmail.com",
+        "href": "mailto:jvkworkstation@gmail.com"
+      }
+    ]
+  },
+  "legal": {
+    "eyebrow": "Notes",
+    "title": "Portfolio Notes",
+    "paragraphs": [
+      "This website brings together projects, studies, experiments and demonstrations developed throughout my work and learning.",
+      "Some demonstrations were rebuilt specifically for public presentation, preserving the idea and technical decisions without using personal, administrative or contextual information that does not belong in the portfolio.",
+      "When data appears in a public demonstration, it is fictional and exists only to allow exploration of the features.",
+      "Some projects continue evolving and may change over time."
+    ]
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to home"
+  }
+}
