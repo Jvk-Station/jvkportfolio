@@ -13,6 +13,7 @@
 
   const escape = (value) => String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   const marked = (value) => escape(value);
+  const cleanHeadline = (value) => String(value ?? "").replace(/^(Opa|Hola|Hey)\.\s*/i, "");
   const text = (path) => path.split(".").reduce((value, key) => value?.[key], locale) ?? "";
   const project = (id) => locale.projects.find((item) => item.id === id);
   const statusClass = (status) => status === "AVAILABLE" ? "available" : "";
@@ -25,7 +26,7 @@
   const renderHome = () => {
     const selected = locale.projects.slice(0, 3).map(projectCard).join("");
     const groups = locale.areas.groups.map((group) => `<article><h3>${escape(group.title)}</h3><ul>${group.items.slice(0, 4).map((item) => `<li>${escape(item)}</li>`).join("")}</ul></article>`).join("");
-    return `<div class="page"><section class="hero"><div><p class="eyebrow">${escape(text("home.eyebrow"))}</p><h1>${marked(text("home.headline"))}</h1><div class="hero-copy">${locale.home.paragraphs.map((paragraph) => `<p>${escape(paragraph)}</p>`).join("")}</div></div><aside class="hero-aside"><strong>${escape(text("home.asideTitle"))}</strong>${escape(text("home.aside"))}</aside></section><section class="section"><div class="section-heading"><h2>${escape(text("home.selected"))}</h2><a class="text-link" href="#/work">${escape(text("home.allWork"))} ↗</a></div><div class="project-grid">${selected}</div></section><section class="section"><div class="section-heading"><div><h2>${escape(text("home.areas"))}</h2><p class="hero-description">${escape(text("home.areasLead"))}</p></div><a class="text-link" href="#/areas">↗</a></div><div class="tool-groups">${groups}</div></section><section class="section"><div class="section-heading"><div><h2>${escape(text("home.certifications"))}</h2><p class="hero-description">${escape(text("home.certLead"))}</p></div><a class="text-link" href="#/certifications">↗</a></div></section>${notice(text("home.development"))}</div>`;
+    return `<div class="page"><section class="hero"><div class="hero-title"><p class="eyebrow">${escape(text("home.eyebrow"))}</p><h1>${marked(cleanHeadline(text("home.headline")))}</h1></div><figure class="hero-monogram"><img src="assets/jvk-monogram.png" alt="JVK" /></figure><div class="hero-copy">${locale.home.paragraphs.map((paragraph) => `<p>${escape(paragraph)}</p>`).join("")}</div><aside class="hero-aside"><strong>${escape(text("home.asideTitle"))}</strong>${escape(text("home.aside"))}</aside></section><section class="section"><div class="section-heading"><h2>${escape(text("home.selected"))}</h2><a class="text-link" href="#/work">${escape(text("home.allWork"))} ↗</a></div><div class="project-grid">${selected}</div></section><section class="section"><div class="section-heading"><div><h2>${escape(text("home.areas"))}</h2><p class="hero-description">${escape(text("home.areasLead"))}</p></div><a class="text-link" href="#/areas">↗</a></div><div class="tool-groups">${groups}</div></section><section class="section"><div class="section-heading"><div><h2>${escape(text("home.certifications"))}</h2><p class="hero-description">${escape(text("home.certLead"))}</p></div><a class="text-link" href="#/certifications">↗</a></div></section>${notice(text("home.development"))}</div>`;
   };
 
   const renderWork = () => {
@@ -55,6 +56,7 @@
   const render = () => {
     const current = route();
     const id = current.match(/^\/project\/(\d+)$/)?.[1];
+    document.body.dataset.view = current === "/" ? "home" : id ? "project" : current.slice(1) || "home";
     main.innerHTML = current === "/" ? renderHome() : current === "/work" ? renderWork() : current === "/areas" ? renderAreas() : current === "/certifications" ? renderCertifications() : current === "/info" ? renderInfo() : current === "/contact" ? renderContact() : current === "/legal" ? renderLegal() : id ? renderProject(id) : renderNotFound();
     document.querySelectorAll("[data-route]").forEach((link) => link.toggleAttribute("aria-current", link.getAttribute("href") === `#${current}`));
   };
@@ -72,7 +74,7 @@
     languageLabel.textContent = language === "pt-BR" ? "PT" : language.toUpperCase();
   };
 
-  const loadLanguage = async (selected, { persist = true } = {}) => {
+  const loadLanguage = async (selected, { persist = false } = {}) => {
     if (!supported.includes(selected)) return;
     const encodedLocale = window.JVKLocaleBase64?.[selected];
     if (!encodedLocale) throw new Error("Locale unavailable");
@@ -97,9 +99,5 @@
   window.addEventListener("hashchange", () => { render(); main.focus({ preventScroll: true }); });
   window.addEventListener("keydown", (event) => { if (event.key === "Escape") closeNavigation(); });
 
-  const stored = localStorage.getItem(storageKey);
-  if (supported.includes(stored)) loadLanguage(stored).catch(() => { modal.setAttribute("aria-hidden", "false"); });
-  else modal.setAttribute("aria-hidden", "false");
+  modal.setAttribute("aria-hidden", "false");
 })();
-
-

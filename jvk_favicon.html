@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JVK Favicon</title>
+
+  <!-- Favicon inline: o mesmo desenho usado na página -->
+  <link rel="icon" type="image/svg+xml"
+        href='data:image/svg+xml;utf8,
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <rect width="512" height="512" rx="58" fill="%2308090A"/>
+          <g fill="%23F1EFEA">
+            <path d="M103 127H206V157H177V315C177 370 146 397 104 397C70 397 49 378 49 343V296H82V339C82 356 91 365 106 365C130 365 144 350 144 319V157H103Z"/>
+            <path d="M177 207L236 386L302 242L277 216L236 307L205 218Z"/>
+            <path d="M281 127H312V246L374 174H418L330 269L424 383H380L311 296L311 383H281Z"/>
+          </g>
+        </svg>' />
+  <style>
+    :root{
+      --bg:#08090a;
+      --fg:#f1efea;
+      --page:#0d0f11;
+      --muted:#8f949a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      background:var(--page);
+      font-family:Arial,Helvetica,sans-serif;
+      color:var(--fg);
+    }
+    .wrap{
+      display:grid;
+      gap:20px;
+      justify-items:center;
+    }
+    .icon{
+      width:min(72vw,520px);
+      aspect-ratio:1;
+      display:block;
+      filter:drop-shadow(0 18px 50px rgba(0,0,0,.45));
+    }
+    .label{
+      color:var(--muted);
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <svg class="icon" viewBox="0 0 512 512" role="img" aria-label="JVK monogram">
+      <rect width="512" height="512" rx="58" fill="#08090A"/>
+
+      <!-- J -->
+      <path fill="#F1EFEA"
+            d="M103 127H206V157H177V315C177 370 146 397 104 397C70 397 49 378 49 343V296H82V339C82 356 91 365 106 365C130 365 144 350 144 319V157H103Z"/>
+
+      <!-- V -->
+      <path fill="#F1EFEA"
+            d="M177 207L236 386L302 242L277 216L236 307L205 218Z"/>
+
+      <!-- K -->
+      <path fill="#F1EFEA"
+            d="M281 127H312V246L374 174H418L330 269L424 383H380L311 296L311 383H281Z"/>
+    </svg>
+
+    <div class="label">JVK favicon · vector</div>
+  </main>
+</body>
+</html>
