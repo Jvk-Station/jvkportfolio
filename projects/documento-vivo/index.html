@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AuthorFlow: editor de documentos com pré-visualização e impressão em PDF." />
+    <title>AuthorFlow — Editor de documentos</title>
+    <link rel="icon" href="../../favicon.svg?v=20260815" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="js/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#document-editor" data-i18n="skip">Ir para o editor</a>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="topbar-actions">
+          <span class="save-state" id="save-state" aria-live="polite" data-i18n="draft">Rascunho desta sessão</span>
+          <button class="button button-quiet" type="button" data-action="language" data-i18n="language">Idioma</button>
+          <button class="button button-quiet" type="button" data-action="clear" data-i18n="newDocument">Novo documento</button>
+          <button class="button button-primary" type="button" data-action="print" data-i18n="preparePdf">Preparar PDF</button>
+        </div>
+      </header>
+
+      <main id="document-editor" class="workspace">
+        <section class="editor-panel" aria-labelledby="editor-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow" data-i18n="editor">EDITOR</p>
+              <h1 id="editor-title" data-i18n="buildDocument">Monte seu documento</h1>
+            </div>
+            <span class="live-pill"><i aria-hidden="true"></i><span data-i18n="live">Ao vivo</span></span>
+          </div>
+
+          <nav class="stepper" aria-label="Etapas do editor" data-i18n-aria-label="steps">
+            <button class="step-button is-active" type="button" data-step-target="0"><span>01</span><strong data-i18n="stepIdentity">Identificação</strong></button>
+            <button class="step-button" type="button" data-step-target="1"><span>02</span><strong data-i18n="stepContent">Conteúdo</strong></button>
+            <button class="step-button" type="button" data-step-target="2"><span>03</span><strong data-i18n="stepTypography">Tipografia</strong></button>
+            <button class="step-button" type="button" data-step-target="3"><span>04</span><strong data-i18n="stepStamp">Carimbo</strong></button>
+          </nav>
+
+          <form id="document-form" autocomplete="off">
+            <fieldset class="step-card" data-step-card="0">
+              <legend data-i18n="identityLegend">Identificação do documento</legend>
+              <label><span data-i18n="documentName">Nome do documento</span><input name="title" type="text" value="Plano de ação" maxlength="90" /></label>
+              <label><span data-i18n="subtitle">Subtítulo</span><input name="subtitle" type="text" value="Documento de acompanhamento e próximos passos" maxlength="120" /></label>
+              <div class="form-grid">
+                <label><span data-i18n="organization">Organização</span><input name="organization" type="text" value="Organização demonstrativa" maxlength="80" /></label>
+                <label><span data-i18n="version">Versão</span><input name="version" type="text" value="1.0" maxlength="20" /></label>
+              </div>
+              <div class="form-grid">
+                <label><span data-i18n="author">Responsável</span><input name="author" type="text" value="Pessoa responsável" maxlength="80" /></label>
+                <label><span data-i18n="date">Data</span><input name="date" type="date" /></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="step-card" data-step-card="1" hidden>
+              <legend data-i18n="contentLegend">Conteúdo principal</legend>
+              <div class="field-toolbar"><label><span data-i18n="summaryType">Tipo do resumo</span><select name="summaryType"><option value="normal" selected data-i18n="normalText">Texto normal</option><option value="title" data-i18n="titleText">Título</option><option value="notice" data-i18n="noticeText">Aviso</option></select></label><span class="field-note" data-i18n="typeHelp">A escolha altera o tratamento visual do bloco.</span></div>
+              <label><span data-i18n="summary">Resumo executivo</span><textarea name="summary" rows="4" maxlength="700">Este documento organiza as decisões, entregas e próximos passos em um formato único, legível e pronto para compartilhamento.</textarea></label>
+              <div class="field-toolbar"><label><span data-i18n="contextType">Tipo do contexto</span><select name="contextType"><option value="normal" selected data-i18n="normalText">Texto normal</option><option value="title" data-i18n="titleText">Título</option><option value="notice" data-i18n="noticeText">Aviso</option></select></label></div>
+              <label><span data-i18n="context">Contexto</span><textarea name="context" rows="6" maxlength="1400">Registre aqui o contexto que deu origem ao documento. Inclua o cenário atual, a necessidade observada e as pessoas envolvidas.</textarea></label>
+              <div class="field-toolbar"><label><span data-i18n="nextStepsType">Tipo dos próximos passos</span><select name="nextStepsType"><option value="normal" selected data-i18n="normalText">Texto normal</option><option value="title" data-i18n="titleText">Título</option><option value="notice" data-i18n="noticeText">Aviso</option></select></label></div>
+              <label><span data-i18n="nextSteps">Próximos passos</span><textarea name="nextSteps" rows="6" maxlength="1400">1. Validar o escopo com as pessoas responsáveis.
+2. Registrar as decisões no sistema.
+3. Revisar o documento antes do envio.</textarea></label>
+              <div class="field-toolbar"><label><span data-i18n="notesType">Tipo das observações</span><select name="notesType"><option value="normal" selected data-i18n="normalText">Texto normal</option><option value="title" data-i18n="titleText">Título</option><option value="notice" data-i18n="noticeText">Aviso</option></select></label></div>
+              <label><span data-i18n="notes">Observações finais</span><textarea name="notes" rows="5" maxlength="1100">Use este espaço para registrar riscos, dependências ou qualquer observação que não deva se perder.</textarea></label>
+            </fieldset>
+
+            <fieldset class="step-card" data-step-card="2" hidden>
+              <legend data-i18n="typographyLegend">Tipografia do documento</legend>
+              <div class="form-grid">
+                <label><span data-i18n="documentFont">Fonte dos textos</span><select name="documentFont"><option value="arial" selected data-i18n="arial">Arial</option><option value="times" data-i18n="times">Times New Roman</option></select></label>
+                <label><span data-i18n="systemFont">Fonte do sistema</span><input type="text" value="Author" readonly /></label>
+              </div>
+              <p class="field-note" data-i18n="fontHelp">A interface usa Author como família principal. A fonte escolhida é aplicada ao conteúdo gerado.</p>
+            </fieldset>
+
+            <fieldset class="step-card" data-step-card="3" hidden>
+              <legend data-i18n="stampLegend">Carimbo e assinatura</legend>
+              <label><span data-i18n="stampText">Texto configurável do carimbo</span><input name="stampText" type="text" value="Documento conferido para emissão" maxlength="100" /></label>
+              <div class="form-grid"><label><span data-i18n="signature">Assinatura</span><input name="signatureName" type="text" value="Assinatura demonstrativa" maxlength="80" /></label><label><span data-i18n="role">Função / cargo</span><input name="signatureRole" type="text" value="Responsável pela revisão" maxlength="80" /></label></div>
+              <label><span data-i18n="signatureNote">Observação da assinatura</span><textarea name="signatureNote" rows="2" maxlength="180">Assinatura de conferência e responsabilidade pelo conteúdo.</textarea></label>
+              <div class="stamp-card"><span class="stamp-icon" aria-hidden="true">✓</span><div><strong data-i18n="stampConfigTitle">Carimbo 85% configurável</strong><p data-i18n="stampConfigText">Texto, assinatura e função vêm do formulário. Os 15% protegidos pelo código preservam a identificação do sistema, data/hora e paginação.</p></div></div>
+            </fieldset>
+
+            <div class="step-actions"><button class="button button-quiet" type="button" data-action="previous" data-i18n="previous">Voltar</button><button class="button button-primary" type="button" data-action="next" data-i18n="next">Continuar</button></div>
+          </form>
+        </section>
+
+        <section class="preview-panel" aria-labelledby="preview-title">
+          <div class="preview-toolbar">
+            <div><p class="eyebrow" data-i18n="preview">PRÉ-VISUALIZAÇÃO</p><h2 id="preview-title" data-i18n="documentOutput">Saída do documento</h2></div>
+            <div class="preview-meta"><span id="page-count">1 página</span><span class="dot">•</span><span data-i18n="a4Pdf">A4 · PDF</span></div>
+          </div>
+          <div id="preview" class="preview-pages" aria-live="polite"></div>
+          <p class="preview-help" data-i18n="previewHelp">A prévia permanece visível enquanto você avança pelos cards. Use “Preparar PDF” e escolha Salvar como PDF.</p>
+        </section>
+      </main>
+    </div>
+
+    <div id="language-modal" class="language-modal" role="dialog" aria-modal="true" aria-labelledby="language-title">
+      <div class="language-card">
+        <p class="eyebrow">LANGUAGE / IDIOMA</p>
+        <h1 id="language-title" data-i18n="languageTitle">Escolha o idioma</h1>
+        <p data-i18n="languageCopy">Selecione como deseja utilizar o sistema. Espanhol está em preparação.</p>
+        <div class="language-options">
+          <button class="language-option english" type="button" data-locale="en"><span class="language-swatch" aria-hidden="true"></span><strong data-i18n="english">English</strong><small data-i18n="englishHint">English interface</small></button>
+          <button class="language-option portuguese" type="button" data-locale="pt"><span class="language-swatch" aria-hidden="true"></span><strong data-i18n="portuguese">Português</strong><small data-i18n="portugueseHint">Interface em português</small></button>
+        </div>
+        <p class="language-preparing" data-i18n="spanishPreparing">Español · em preparação</p>
+      </div>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
