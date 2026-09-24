@@ -3,11 +3,11 @@
 window.JVK_SITE_CONFIG = {
   googleAnalyticsMeasurementId: "",
   projectPresentation: {
-    "01": { visual: "management", tags: ["Web App", "Dashboard", "Workflows"] },
-    "02": { visual: "portal", tags: ["Portal", "Search", "Content"] },
-    "03": { visual: "authorflow", tags: ["Documents", "PDF", "Interface"] },
-    "04": { visual: "map", tags: ["Maps", "GeoJSON", "Spatial"] },
-    "05": { visual: "pulse", tags: ["Dashboard", "Data", "Signals"] },
-    "06": { visual: "central", tags: ["Workflows", "Tasks", "Documents"] }
+    "01": { visual: "management", tags: ["Processos", "Dados", "Gestão"] },
+    "02": { visual: "portal", tags: ["Pesquisa", "Conteúdo", "Consulta"] },
+    "03": { visual: "authorflow", tags: ["Documentos", "Prévia", "Estrutura"] },
+    "04": { visual: "map", tags: ["QGIS", "Território", "Camadas"] },
+    "05": { visual: "pulse", tags: ["Atividades", "Tempo", "Registros"] },
+    "06": { visual: "logistics", tags: ["Materiais", "Movimentações", "Estoque"] }
   }
 };
