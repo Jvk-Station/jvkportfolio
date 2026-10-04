@@ -40,10 +40,10 @@ window.JVKProjectData = [
     technologies: ["HTML", "CSS", "JavaScript"]
   },
   {
-    id: "04", title: "MapProject", status: "IN DEVELOPMENT",
+    id: "04", title: "GEO", status: "IN DEVELOPMENT",
     summary: "Exploração de dados geoespaciais para estudar propriedades agrícolas e seu território.",
     story: [
-      "MapProject explora a aplicação de geotecnologia no contexto de propriedades agrícolas, usando mapas e dados territoriais para ampliar a leitura espacial das informações.",
+      "GEO explora a aplicação de geotecnologia no contexto de propriedades agrícolas, usando mapas e dados territoriais para ampliar a leitura espacial das informações.",
       "O estudo considera localização, território, condições ambientais, clima e outras informações espaciais relevantes para a análise de propriedades.",
       "A exploração inclui QGIS, ferramentas geoespaciais e dados relacionados à análise climática. As possibilidades ainda estão sendo investigadas."
     ],
