@@ -295,10 +295,26 @@
     };
   };
 
+  const projectFeatureVisual = (id) => {
+    const art = {
+      "01": `<div class="feature-visual feature-visual--management" data-gallery-art-frame="01"><div class="feature-screen"><div class="feature-screen-sidebar"><i></i><i></i><i></i><i></i></div><div class="feature-screen-main"><div class="feature-screen-top"><span></span><span></span></div><div class="feature-screen-metrics"><b></b><b></b><b></b></div><div class="feature-screen-chart"></div><div class="feature-screen-table"><i></i><i></i><i></i></div></div></div></div>`,
+      "02": `<div class="feature-visual feature-visual--portal" data-gallery-art-frame="02"><div class="feature-search"></div><div class="feature-list"><i></i><i></i><i></i><i></i></div><div class="feature-tags"><span>Perguntas</span><span>Respostas</span><span>Consulta</span></div></div>`,
+      "03": `<div class="feature-visual feature-visual--documents" data-gallery-art-frame="03"><div class="feature-doc feature-doc--form"><i></i><i></i><i></i><i></i></div><div class="feature-doc feature-doc--preview"><i></i><i></i><i></i><i></i><i></i></div></div>`,
+      "04": `<div class="feature-visual feature-visual--geo" data-gallery-art-frame="04"><div class="feature-map-grid"></div><svg viewBox="0 0 320 200" class="feature-map-shape" preserveAspectRatio="none"><path d="M16 72L114 28 212 60 288 122 244 176 110 168 36 126Z" /><path d="M110 28L126 168" /><path d="M212 60L110 168" /></svg><span class="feature-map-dot"></span><span class="feature-map-dot feature-map-dot--two"></span></div>`,
+      "05": `<div class="feature-visual feature-visual--pulse" data-gallery-art-frame="05"><div class="feature-pulse-bars">${[28,56,38,74,44,86,48,62,36,78].map((h) => `<i style="--bar:${h}%"></i>`).join("")}</div></div>`,
+      "06": `<div class="feature-visual feature-visual--logistics" data-gallery-art-frame="06"><div class="feature-logistics-flow"><span>Entrada</span><span>Conferência</span><span>Movimentação</span><span>Saída</span></div><div class="feature-logistics-crates"><i></i><i></i><i></i></div></div>`
+    };
+    return art[id] || "";
+  };
+
+  const projectGalleryPoints = (item) => Array.isArray(item?.teaserPoints) && item.teaserPoints.length
+    ? `<ul class="project-gallery-points" data-gallery-points>${item.teaserPoints.map((entry) => `<li>${escape(entry)}</li>`).join("")}</ul>`
+    : "";
+
   const renderWork = () => {
     const first = locale.projects[0];
     const cards = locale.projects.map((item, index) => `<button class="project-gallery-card${index === 0 ? " is-active" : ""}" type="button" data-gallery-index="${index}" aria-pressed="${index === 0}" aria-label="${index === 0 ? "Abrir" : "Selecionar"} projeto ${index + 1}: ${escape(item.title)}"><span class="project-gallery-card-index">${String(index + 1).padStart(2, "0")}</span><span class="project-gallery-card-title">${escape(item.title)}</span><span class="project-gallery-card-arrow" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false"><path d="M4 10h11M10 5l5 5-5 5" /></svg></span></button>`).join("");
-    return `<div class="page work-exploration-page"><section class="project-gallery" data-project-gallery data-active="0" aria-label="Projetos"><header class="project-gallery-intro"><p class="eyebrow">Explorar</p><h1>Projetos<br>em destaque</h1><span class="project-gallery-prompt" aria-hidden="true"><i>→</i><span>Selecione um projeto</span></span></header><section class="project-gallery-feature" aria-live="polite" aria-atomic="true"><div class="project-gallery-feature-meta"><span>Projeto selecionado</span><span data-gallery-count>01 / 06</span></div><h2 data-gallery-title>${escape(first.title)}</h2><a class="project-gallery-open" data-gallery-open href="#/project/01">Explorar Sistema de Gestão <span aria-hidden="true">↗</span></a><div class="project-gallery-art" aria-hidden="true"><span class="gallery-art-orbit gallery-art-orbit--outer"></span><span class="gallery-art-orbit gallery-art-orbit--inner"></span><span class="gallery-art-core"></span><span class="gallery-art-line gallery-art-line--one"></span><span class="gallery-art-line gallery-art-line--two"></span><span class="gallery-art-glow"></span></div></section><nav class="project-gallery-rail" aria-label="Selecionar projeto">${cards}</nav></section></div>`;
+    return `<div class="page work-exploration-page"><section class="project-gallery" data-project-gallery data-active="0" aria-label="Projetos"><header class="project-gallery-intro"><p class="eyebrow">Explorar</p><h1>Projetos<br>em destaque</h1><span class="project-gallery-prompt" aria-hidden="true"><i>→</i><span>Selecione um projeto</span></span></header><section class="project-gallery-feature" aria-live="polite" aria-atomic="true"><div class="project-gallery-feature-meta"><span>Projeto selecionado</span><span data-gallery-count>01 / 06</span></div><h2 data-gallery-title>${escape(first.title)}</h2><p class="project-gallery-summary" data-gallery-summary>${escape(first.summary)}</p>${projectGalleryPoints(first)}<a class="project-gallery-open" data-gallery-open href="#/project/01">Explorar Sistema de Gestão <span aria-hidden="true">↗</span></a><div class="project-gallery-art" data-gallery-art aria-hidden="true">${projectFeatureVisual(first.id)}</div></section><nav class="project-gallery-rail" aria-label="Selecionar projeto">${cards}</nav></section></div>`;
   };
 
   const bindProjectGallery = () => {
@@ -317,7 +333,15 @@
       void title.offsetWidth;
       title.classList.add("is-changing");
       count.textContent = `${String(index + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
-      open.hidden = item.id !== "01";
+      const summary = gallery.querySelector("[data-gallery-summary]");
+      if (summary) summary.textContent = item.summary;
+      const points = gallery.querySelector("[data-gallery-points]");
+      if (points) points.innerHTML = Array.isArray(item.teaserPoints) ? item.teaserPoints.map((entry) => `<li>${escape(entry)}</li>`).join("") : "";
+      const art = gallery.querySelector("[data-gallery-art]");
+      if (art) art.innerHTML = projectFeatureVisual(item.id);
+      open.hidden = false;
+      open.href = `#/project/${item.id}`;
+      open.innerHTML = `Explorar ${escape(item.title)} <span aria-hidden="true">↗</span>`;
       cards.forEach((card, position) => {
         const active = position === index;
         card.classList.toggle("is-active", active);
@@ -326,13 +350,7 @@
       if (moveFocus) cards[index].focus();
     };
     cards.forEach((card, index) => {
-      card.addEventListener("click", () => {
-        if (locale.projects[index]?.id === "01") {
-          location.hash = "#/project/01";
-          return;
-        }
-        select(index);
-      });
+      card.addEventListener("click", () => select(index));
       card.addEventListener("keydown", (event) => {
         let next = index;
         if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (index + 1) % cards.length;
@@ -363,19 +381,89 @@
     return art[id] || "";
   };
 
+  // A common evidence-first layer for every project, including the management showcase.
+  const projectCaseFacts = (item, { management = false } = {}) => {
+    if (!item) return "";
+    const bulletSection = (title, entries) => Array.isArray(entries) && entries.length
+      ? `<section class="case-detail-block"><h3>${escape(title)}</h3><ul>${entries.map((entry) => `<li>${escape(entry)}</li>`).join("")}</ul></section>` : "";
+    const contribution = item.contribution ? `<section class="case-detail-block"><h3>Minha participação</h3><p>${escape(item.contribution)}</p></section>` : "";
+    const evidence = item.evidence ? `<section class="case-detail-block"><h3>Evidências disponíveis</h3><p>${escape(item.evidence)}</p></section>` : "";
+    const limits = item.limits ? `<section class="case-detail-block"><h3>Limites da apresentação</h3><p>${escape(item.limits)}</p></section>` : "";
+    const demo = item.demo?.href
+      ? `<a class="case-demo-link" href="${escape(item.demo.href)}" target="_blank" rel="noopener noreferrer">${escape(item.demo.label || "Abrir demonstração")} <span aria-hidden="true">↗</span></a>` : `<p class="case-no-demo">Ainda não há demonstração pública deste projeto.</p>`;
+    const content = `${contribution}${bulletSection("O que já existe", item.delivered)}${bulletSection("Decisões e critérios", item.decisions)}${evidence}${limits}${bulletSection("Próximos passos", item.nextSteps)}`;
+    return `<section class="project-case-notes${management ? " project-case-notes--management" : ""}" aria-labelledby="case-notes-${escape(item.id)}"><div class="case-notes-intro"><p class="case-notes-eyebrow">Projeto ${escape(item.id)} · ${escape(statusText(item.status))}</p><h2 id="case-notes-${escape(item.id)}">O projeto, além das telas.</h2><p>Contexto, decisões e estado real do trabalho — sem confundir protótipo, desenvolvimento e entrega concluída.</p><div class="case-notes-actions">${demo}<a class="case-contact-link" href="mailto:jvkworkstation@gmail.com?subject=${encodeURIComponent("Contato sobre o projeto " + item.title)}">Conversar sobre o projeto ↗</a></div></div><div class="case-notes-grid">${content}</div></section>`;
+  };
+
   const managementImage = (file, alt, width, height) => `<img src="assets/management-case/${file}" alt="${escape(alt)}" width="${width}" height="${height}" loading="eager" decoding="async">`;
 
+  // Editorial case page: institutional architecture first; VISA is a separate practice example.
   const renderManagementProject = () => {
-    const screens = [
-      { id: "central", title: "Central", file: "central-safe.png", width: 1919, height: 841 },
-      { id: "empresas", title: "Empresas", file: "empresas-safe.png", width: 1919, height: 944 },
-      { id: "acompanhamento", title: "Acompanhamento", file: "acompanhamento-safe.png", width: 1919, height: 942 },
-      { id: "agenda", title: "Agenda", file: "agenda-safe.png", width: 1919, height: 901 },
-      { id: "relatorios", title: "Relatórios", file: "relatorios-safe.png", width: 1919, height: 888 },
-      { id: "modulos", title: "Módulos", file: "modulos-safe.png", width: 665, height: 527 }
+    const screenEntries = [
+      { id: "central", title: "Central", file: "central-safe.png", width: 1919, height: 841, note: "Uma visão operacional para acompanhar o que pede atenção." },
+      { id: "empresas", title: "Empresas", file: "empresas-safe.png", width: 1919, height: 944, note: "Cadastros organizados para consulta e continuidade do atendimento." },
+      { id: "acompanhamento", title: "Acompanhamento", file: "acompanhamento-safe.png", width: 1919, height: 942, note: "Registros de atividades e marcos de trabalho ao longo do tempo." },
+      { id: "agenda", title: "Agenda", file: "agenda-safe.png", width: 1919, height: 901, note: "Compromissos e planejamento associados à rotina da equipe." },
+      { id: "relatorios", title: "Relatórios", file: "relatorios-safe.png", width: 1919, height: 888, note: "Organização dos registros para análise e consulta." },
+      { id: "modulos", title: "Módulos", file: "modulos-safe.png", width: 665, height: 527, note: "Diferentes áreas reunidas numa navegação modular." }
     ];
-    const figures = screens.map((screen, index) => `<figure class="management-frame${screen.id === "modulos" ? " management-frame--modules" : ""}" data-management-frame="${index}" id="management-${screen.id}"${index ? ' aria-hidden="true"' : ""}>${managementImage(screen.file, `Tela completa de ${screen.title} do Sistema de Gestão`, screen.width, screen.height)}</figure>`).join("");
-    return `<article class="management-case" data-management-case><section class="management-flow" data-management-flow><div class="management-stage" data-management-stage><a href="#/work" class="management-return">Voltar</a><header class="management-title" data-management-title><h1>Sistema de Gestão</h1><p>Plataforma web em desenvolvimento para centralizar cadastros, acompanhamento anual, agenda, pendências e relatórios operacionais. As telas apresentam o produto em uso com dados fictícios.</p></header><div class="management-frames">${figures}</div></div></section><footer class="management-outro"><a href="#/work">Voltar aos projetos <span aria-hidden="true">↗</span></a></footer></article>`;
+    const frames = screenEntries.map((screen, index) => `<figure class="management-frame${screen.id === "modulos" ? " management-frame--modules" : ""}" data-management-frame="${index}" id="management-${screen.id}"${index ? ' aria-hidden="true"' : ""}>${managementImage(screen.file, `Captura demonstrativa da tela ${screen.title} da aplicação de Vigilância Sanitária`, screen.width, screen.height)}</figure>`).join("");
+    const roles = [
+      { name: "ADMIN", body: "Cuida da estrutura técnica e das configurações autorizadas. Esse nível não recebe acesso assistencial nem poder de aprovação automaticamente." },
+      { name: "GESTAO", body: "Responde pelas decisões de acesso: aprovar, liberar, restringir e revogar módulos e permissões. Ações sensíveis exigem registro e procedimento próprio." },
+      { name: "COORDENACAO", body: "Acompanha as rotinas e informações dentro do alcance atribuído à sua unidade ou responsabilidade. Não concede níveis institucionais." },
+      { name: "PROFISSIONAIS", body: "Executam as atividades permitidas pela função e pelo contexto de atuação. O acesso é delimitado por permissões, não apenas pelo cargo." }
+    ];
+    const roleRows = roles.map((item, index) => `<div class="health-role"><span class="health-role-number">${String(index + 1).padStart(2,"0")}</span><h3>${escape(item.name)}</h3><p>${escape(item.body)}</p></div>`).join("");
+    const tracks = [
+      { name: "Unidades e ambientes", status: "Base técnica", body: "Estrutura para identificar unidades, espaços e vínculos de responsabilidade. Os dados e regras evoluem antes da interface final." },
+      { name: "Higienização", status: "Fluxos em desenho", body: "Registro de atividades por ambiente, identificação por QR Code e possibilidades de conferência pela coordenação." },
+      { name: "Equipamentos", status: "Estrutura de dados", body: "Localização de equipamentos em unidades e salas, com registros associados a ocorrências e manutenções." },
+      { name: "PRISMA", status: "Em estruturação", body: "Procedimentos e documentos padronizados, com versões e adaptações conforme a unidade, sem perder a referência original." },
+      { name: "Agenda e equipes", status: "Planejamento", body: "Organização futura de compromissos, equipes e atividades em conjunto com os demais processos da rede." }
+    ];
+    const trackRows = tracks.map((item,index)=>`<div class="health-track"><span class="health-track-num">${String(index+1).padStart(2,"0")}</span><h3>${escape(item.name)}</h3><p>${escape(item.body)}</p><span class="health-track-status">${escape(item.status)}</span></div>`).join("");
+    return `<article class="management-case health-case" data-management-case>
+      <header class="health-hero">
+        <div class="health-hero-top"><a href="#/work" class="health-back">← Todos os projetos</a></div>
+        <div class="health-hero-body"><h1>Sistemas para<br>a <em>saúde pública.</em></h1><div class="health-hero-aside"><p>O objetivo é organizar soluções para a Secretaria de Saúde sem transformar necessidades diferentes em um único sistema indistinto.</p><button class="health-jump" type="button" data-health-jump="saude-arquitetura">Entender a estrutura <span aria-hidden="true">↘</span></button></div></div>
+        <div class="health-hero-foot"></div>
+      </header>
+
+      <section class="health-framework" id="saude-arquitetura" aria-labelledby="health-structure-title">
+        <div class="health-framework-intro"><h2 id="health-structure-title">Uma base.<br>Várias operações.</h2></div>
+        <div class="health-foundations" aria-label="Três partes do núcleo institucional">
+          <div><span></span><strong>Organização</strong><p>Unidades, vínculos e alcance institucional.</p></div>
+          <div><span></span><strong>Identidade e acesso</strong><p>Responsabilidades, permissões e aprovação.</p></div>
+          <div><span></span><strong>Auditoria</strong><p>Registro das ações administrativas sensíveis.</p></div>
+        </div>
+       
+      </section>
+
+      <section class="health-permissions" aria-labelledby="health-roles-title">
+        <div class="health-permissions-title"><h2 id="health-roles-title">Cargos e Equipes</h2></div>
+        <div class="health-roles">${roleRows}</div>
+      </section>
+
+      <section class="health-tracks" aria-labelledby="health-tracks-title">
+        <div class="health-tracks-heading"><h2 id="health-tracks-title">As frentes de trabalho.</h2><p>Cada necessidade tem seu próprio ritmo de desenvolvimento. O estágio abaixo descreve o que existe tecnicamente — não uma implantação concluída.</p></div>
+        <div class="health-track-list">${trackRows}</div>
+      </section>
+
+      <section class="health-vigilance" aria-labelledby="health-vigilance-title">
+        <div class="health-vigilance-main"><h2 id="health-vigilance-title">Um recorte que já dá para mostrar:<br><em>Vigilância Sanitária.</em></h2><p>Uma aplicação web independente, com cadastros, acompanhamento, agenda e organização de registros. Ela evolui separadamente do núcleo institucional da Secretaria. As capturas abaixo são de um ambiente demonstrativo com dados fictícios.</p></div>
+        <div class="health-vigilance-action"><a href="projects/management-system/index.html" target="_blank" rel="noopener noreferrer">Experimentar demonstração <span aria-hidden="true">↗</span></a><small>Demonstração isolada; não acessa o ambiente operacional.</small></div>
+      </section>
+
+      <section class="management-flow health-screen-flow" data-management-flow aria-label="Sequência de capturas demonstrativas da Vigilância Sanitária"><div class="management-stage" data-management-stage><header class="management-title" data-management-title><h2>Do processo<br>à interface.</h2><p>Seis telas demonstrativas da aplicação de Vigilância Sanitária, apresentadas como exemplo de construção modular.</p></header><div class="management-frames">${frames}</div><div class="health-screen-counter" aria-hidden="true"><span data-management-caption-index>01 / 06</span><strong data-management-caption-name>Central</strong></div></div></section>
+
+      <section class="health-method" aria-labelledby="health-method-title"><h2 id="health-method-title">O que fiz.<br>O que falta.</h2><div class="health-method-right">
+        <div><h3>Minha atuação</h3><p>Levantamento de necessidades, desenho de fluxos, desenvolvimento de interfaces, modelagem de dados, configuração de regras de acesso, investigação de falhas, testes e documentação.</p></div>
+        <div><h3>Ferramentas e estrutura</h3><p>HTML, CSS, JavaScript, Supabase, PostgreSQL e SQL. O desenvolvimento é organizado por módulos e etapas de validação.</p></div>
+        <div><h3>Limites atuais</h3><p>A estrutura institucional passou por validações de banco e segurança. A integração completa, a aprovação real de usuários e a implantação conjunta das frentes ainda não estão homologadas.</p></div>
+      </div></section>
+      <footer class="health-project-footer"><p>As imagens públicas são demonstrativas. Este relato documenta trabalho técnico e decisões de projeto; não é um canal oficial nem uma declaração de implantação institucional.</p><div><a href="mailto:jvkworkstation@gmail.com?subject=Contato%20sobre%20o%20projeto%20de%20sistemas%20para%20sa%C3%BAde">Conversar sobre este trabalho ↗</a><a href="#/work">Outros projetos →</a></div></footer>
+    </article>`;
   };
 
   const renderProject = (id) => {
@@ -392,7 +480,7 @@
     ].map(([heading, ...paragraphs], chapter) => `<section class="project-chapter project-chapter--${chapter + 1}" data-project-reveal><h2>${heading}</h2><div>${paragraphs.filter(Boolean).map((paragraph) => `<p>${escape(paragraph)}</p>`).join("")}</div></section>`).join("");
     const capabilities = item.capabilities?.length ? `<section class="project-facts" data-project-reveal><h2>${escape(item.capabilitiesLabel || "Elementos principais")}</h2><ul>${item.capabilities.map((entry) => `<li>${escape(entry)}</li>`).join("")}</ul></section>` : "";
     const technologies = item.technologies?.length ? `<section class="project-facts" data-project-reveal><h2>Tecnologias</h2><p>${item.technologies.map(escape).join(" · ")}</p></section>` : "";
-    return `<div class="project-story-page project-story-page--${id}" data-project-story><article><header class="project-opening"><a class="project-back" href="#/work">← Projetos</a><div class="project-opening-copy"><p class="project-opening-index">${escape(item.id)} / ${escape(statusText(item.status))}</p><h1>${escape(item.title)}</h1><p>${escape(item.summary)}</p></div>${projectArtwork(id)}</header><div class="project-narrative">${chapters}</div><div class="project-afterword">${capabilities}${technologies}<section class="project-facts" data-project-reveal><h2>Status</h2><p>${escape(statusText(item.status))}</p></section></div><nav class="project-neighbors" aria-label="Outros projetos"><a href="#/project/${previous.id}"><span>Projeto anterior</span><strong>${escape(previous.title)}</strong></a><a href="#/project/${next.id}"><span>Próximo projeto</span><strong>${escape(next.title)}</strong></a></nav></article></div>`;
+    return `<div class="project-story-page project-story-page--${id}" data-project-story><article><header class="project-opening"><a class="project-back" href="#/work">← Projetos</a><div class="project-opening-copy"><p class="project-opening-index">${escape(item.id)} / ${escape(statusText(item.status))}</p><h1>${escape(item.title)}</h1><p>${escape(item.summary)}</p></div>${projectArtwork(id)}</header><div class="project-narrative">${chapters}</div><div class="project-afterword">${capabilities}${technologies}<section class="project-facts" data-project-reveal><h2>Status</h2><p>${escape(statusText(item.status))}</p></section></div>${projectCaseFacts(item)}<nav class="project-neighbors" aria-label="Outros projetos"><a href="#/project/${previous.id}"><span>Projeto anterior</span><strong>${escape(previous.title)}</strong></a><a href="#/project/${next.id}"><span>Próximo projeto</span><strong>${escape(next.title)}</strong></a></nav></article></div>`;
   };
 
   const areaDockLabels = ["Web", "Dados", "Infra", "Auto", "Geo", "Design", "Gestão", "Git"];
@@ -564,6 +652,8 @@
     const page = document.querySelector("[data-management-case]");
     if (!page) return;
     revealController = new AbortController();
+    const jump = page.querySelector("[data-health-jump]");
+    jump?.addEventListener("click", () => page.querySelector(`#${jump.dataset.healthJump}`)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" }));
     const flow = page.querySelector("[data-management-flow]");
     const stage = page.querySelector("[data-management-stage]");
     const title = page.querySelector("[data-management-title]");
@@ -580,6 +670,13 @@
       const reveal = Math.max(0, Math.min(1, progress / .14));
       const sequence = Math.max(0, Math.min(1, (progress - .14) / .86));
       const position = sequence * (frames.length - 1);
+      const visibleIndex = Math.max(0, Math.min(frames.length - 1, Math.round(position)));
+      const labelNode = page.querySelector("[data-management-caption-name]");
+      const indexNode = page.querySelector("[data-management-caption-index]");
+      const screenNames = ["Central", "Empresas", "Acompanhamento", "Agenda", "Relatórios", "Módulos"];
+      if (labelNode) labelNode.textContent = screenNames[visibleIndex];
+      if (indexNode) indexNode.textContent = `${String(visibleIndex + 1).padStart(2, "0")} / 06`;
+      stage.style.setProperty("--health-counter-opacity", (reveal > .97 ? 1 : 0).toFixed(2));
       frames.forEach((frame, index) => {
         const delta = index - position;
         const visibility = Math.max(0, 1 - Math.abs(delta));
@@ -786,6 +883,7 @@
     const id = current.match(/^\/project\/(\d+)$/)?.[1];
     document.body.dataset.view = current === "/" ? "home" : id ? "project" : current.slice(1) || "home";
     document.body.classList.remove("management-project-view");
+    document.body.classList.toggle("health-project-view", id === "01");
     document.body.classList.toggle("info-identity-view", current === "/info" || current === "/contact");
     main.innerHTML = current === "/" ? renderHome() : current === "/work" ? renderWork() : current === "/lab" ? renderLab() : current === "/areas" ? renderAreas() : current === "/certifications" ? renderCertifications() : current === "/info" ? renderInfo() : current === "/contact" ? renderInfo() : current === "/legal" ? renderLegal() : id ? renderProject(id) : renderNotFound();
     if (current === "/") {
